@@ -74,6 +74,12 @@ test('simultaneous readers keep separate state and receive only applicable updat
     await sheet(a).getByRole('button', { name: '下一頁' }).click();
     await expect(sheet(a).locator('#page-number')).toHaveValue('2');
     await expect(sheet(b).locator('#page-number')).toHaveValue('1');
+    const sameBrowser = await left.newPage();
+    await sameBrowser.goto(site.url + '/second/');
+    await expect(card(sameBrowser).getByRole('button', { name: '收藏：容量估算講義' })).toBeVisible();
+    await card(sameBrowser).getByText('容量估算講義', { exact: true }).click();
+    await expect(sheet(sameBrowser).locator('#page-number')).toHaveValue('1');
+    await sameBrowser.close();
     await sheet(b).locator('#scroll').press('Escape');
     await b.getByLabel('切換課程').selectOption('../second/');
     await expect(b.locator('#home h1')).toHaveText('Second Course');
@@ -108,13 +114,16 @@ test('simultaneous readers keep separate state and receive only applicable updat
 test('standalone PDF stays open until the reader refreshes and keeps its page', async ({ page }) => {
   const site = await fixture();
   try {
-    await page.goto(site.url + '/networks/pdf.html?file=resources%2Fcapacity.pdf&page=2');
-    await expect(page.locator('canvas[aria-label="第 2 頁"]')).toBeVisible();
+    await page.goto(site.url + '/networks/pdf.html?file=resources%2Fcapacity.pdf&page=1');
+    await expect(page.locator('canvas[aria-label="第 1 頁"]')).toBeVisible();
+    await page.getByRole('button', { name: '下一頁' }).click();
+    await expect(page.locator('#page-number')).toHaveValue('2');
     await site.edit(site.alpha, 'First Updated');
     site.build();
     await checkForUpdate(page);
     await expect(page.locator('[data-update-notice]')).toBeVisible();
     await page.locator('[data-update-notice] button').click();
+    await expect(page).toHaveURL(/page=2$/);
     await expect(page.locator('canvas[aria-label="第 2 頁"]')).toBeVisible();
     await expect(page.locator('[data-update-notice]')).toBeHidden();
   } finally {
