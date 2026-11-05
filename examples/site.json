@@ -1,0 +1,7 @@
+{
+  "default": "networks",
+  "courses": [
+    {"config": "networking/course.json"},
+    {"config": "blank/course.json"}
+  ]
+}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>容量估算互動圖</title><link rel="stylesheet" href="../components/answers.css"></head>
+<body><main><h1>調整站點數</h1>
+<p>每站能獨立支援 12 條同時連線。移動滑桿改變站點數。</p>
+<figure><div class="controls"><label>站點數 <input type="range" min="1" max="8" value="3"></label><output aria-live="polite"></output></div>
+<div class="flow" id="sites" aria-hidden="true"></div><figcaption>每格代表一個站點。</figcaption></figure>
+</main><script>
+const slider=document.querySelector('input'),result=document.querySelector('output'),sites=document.querySelector('#sites');
+function draw(){
+ const count=Number(slider.value);
+ result.value=count+' 站 × 12 條 = '+count*12+' 條';
+ sites.replaceChildren(...Array.from({length:count},(_,i)=>{
+  const site=document.createElement('span');
+  site.textContent='站 '+(i+1)+' · 12';
+  return site;
+ }));
+}
+slider.addEventListener('input',draw);
+draw();
+</script></body></html>

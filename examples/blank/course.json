@@ -1,0 +1,10 @@
+{
+  "course": {
+    "id": "new-course",
+    "code": "STARTER",
+    "title": "新課程",
+    "description": "從空白課程開始。教材加入清單後便會出現在這裡。"
+  },
+  "topics": [],
+  "resources": []
+}

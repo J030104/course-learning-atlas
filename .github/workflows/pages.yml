@@ -1,0 +1,56 @@
+name: Publish public Atlas
+
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: Build a course manifest or a combined site manifest
+        type: choice
+        options: [site, config]
+        default: site
+      manifest:
+        description: Path to a tracked manifest whose contents may be published
+        type: string
+        default: examples/site.json
+
+# Acquire the slot before checking out and building. A later queued run reads the newest
+# default branch, which includes all merged course changes.
+concurrency:
+  group: atlas-public-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  publish:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m unittest discover -s tests -v
+      - name: Build one complete site snapshot
+        env:
+          ATLAS_SCOPE: ${{ inputs.scope }}
+          ATLAS_MANIFEST: ${{ inputs.manifest }}
+        run: |
+          case "$ATLAS_SCOPE" in site|config) ;; *) exit 1 ;; esac
+          case "$ATLAS_MANIFEST" in -*|/*|../*|*/../*|private/*) exit 1 ;; esac
+          git ls-files --error-unmatch -- "$ATLAS_MANIFEST"
+          python3 atlas.py build "--$ATLAS_SCOPE" "$ATLAS_MANIFEST"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - uses: actions/deploy-pages@v4
+        id: deploy

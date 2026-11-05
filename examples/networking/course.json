@@ -1,0 +1,48 @@
+{
+  "course": {
+    "id": "networks",
+    "code": "NET DEMO",
+    "title": "行動網路示範課",
+    "description": "用自製教材展示講義、解答、互動練習與作業如何在一個課程裡整理。"
+  },
+  "theme": {"accent": "#23688a"},
+  "topics": ["容量估算", "網路規劃"],
+  "resources": [
+    {
+      "id": "capacity-notes",
+      "title": "容量估算講義",
+      "kind": "lecture",
+      "topics": ["容量估算", "網路規劃"],
+      "description": "兩頁自製 PDF，展示連續閱讀與原檔下載。",
+      "files": ["capacity.pdf"],
+      "synthetic": true
+    },
+    {
+      "id": "capacity-answer",
+      "title": "同時連線數怎麼估算？",
+      "kind": "answers",
+      "topics": ["容量估算"],
+      "description": "練習將每站連線上限乘上站點數。",
+      "files": ["answer.html"],
+      "synthetic": true
+    },
+    {
+      "id": "capacity-slider",
+      "title": "調整站點數",
+      "kind": "interactive",
+      "topics": ["容量估算"],
+      "description": "調整站點數，查看簡化模型下的總連線上限。",
+      "files": ["capacity.html"],
+      "synthetic": true
+    },
+    {
+      "id": "practice",
+      "title": "容量估算練習",
+      "kind": "assignment",
+      "area": "assignments",
+      "topics": ["容量估算"],
+      "files": ["practice.md"],
+      "synthetic": true
+    }
+  ]
+}

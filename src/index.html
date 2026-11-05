@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><!-- atlas-version --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="課程學習圖鑑，集中閱讀講義、筆記和互動教材。"><title>課程學習圖鑑</title><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="theme.css"><link rel="stylesheet" href="components/navigation.css"></head>
+<body>
+<a class="skip" href="#library">跳至教材</a>
+<aside class="sidebar" aria-label="主題導覽">
+<a class="brand" href="./"><span class="brand-icon">∿</span><span><span data-course="code"></span><small>學習圖譜 LEARNING ATLAS</small></span></a>
+<div class="side-caption">你的概念，逐步連起來。</div>
+<label id="course-picker" hidden>切換課程 <select id="courses" aria-label="切換課程"></select></label>
+<nav class="area-nav" aria-label="網站分區"><a href="./" data-area="study">學習教材</a><a href="?area=assignments" data-area="assignments">作業與習題</a></nav>
+<nav id="topics" aria-label="按主題篩選"></nav>
+<div class="side-bottom"><span class="private-dot"></span> 課程資源空間<br><span>教材持續累積 · 入口保持一致</span><a href="#about" id="about-link">收錄範圍與來源 ↗</a></div>
+</aside>
+<div class="main-wrap">
+<header class="topbar"><div><span class="desktop-crumb" data-course="code"></span></div><div class="top-right"><span class="atlas-update" data-update-notice hidden><span role="status">此頁有新版本</span> <button type="button">重新整理</button></span><span id="updated"></span><button id="saved" class="quiet" aria-pressed="false">☆ 我的收藏</button></div></header>
+<main>
+<section class="hero" id="home">
+<div class="eyebrow"><span></span> COURSE LEARNING ATLAS</div>
+<div class="hero-layout"><div><h1 data-course="title"></h1><p data-course="description"></p><div class="hero-actions"><button class="primary" id="go-interactive">探索互動概念 <span>↗</span></button><a href="#slide-answers" id="go-answers">講義解答 ↓</a></div></div>
+<div class="hero-visual" aria-hidden="true"><span class="visual-tag">FROM INTUITION TO EQUATIONS</span><svg viewBox="0 0 400 220"><defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#c8d9ce" stroke-width=".5"/></pattern><linearGradient id="fill" x2="0" y2="1"><stop stop-color="#248d7c" stop-opacity=".28"/><stop offset="1" stop-color="#248d7c" stop-opacity="0"/></linearGradient></defs><rect width="400" height="220" fill="url(#grid)"/><path d="M20 187C70 187 72 60 130 60S177 187 230 187Z" fill="url(#fill)"/><path d="M20 187C70 187 72 60 130 60S177 187 230 187" stroke="#168779" stroke-width="2.5" fill="none"/><path d="M85 187C155 187 174 100 245 100S315 187 385 187" stroke="#d06a42" stroke-width="2.5" fill="none"/><path d="M20 190H385M40 200V35" stroke="#a1b7ab"/><path d="M181 47V188" stroke="#183e3a" stroke-dasharray="4 4"/><circle cx="181" cy="156" r="6" fill="#fffefb" stroke="#168779" stroke-width="2"/><circle cx="181" cy="141" r="5" fill="#d06a42"/><text x="191" y="42" font-size="13" fill="#183e3a">compare A &amp; B</text><text x="100" y="50" font-size="14" fill="#168779">A</text><text x="250" y="89" font-size="14" fill="#b35d3c">B</text><text x="48" y="30" font-size="12" fill="#56716b">y</text></svg><span class="visual-caption">移動一個參數，讓抽象的關係變得可見。</span></div></div>
+<div class="stats" id="stats"></div>
+</section>
+<section id="assignments-home" class="hero" hidden><div class="eyebrow">COURSE ASSIGNMENTS</div><h1 data-course="assignmentsLabel"></h1><p>查閱作業規格、Tutorial、Notebook 與原型實驗資料。歷史版本保留原有標示。</p></section>
+<section id="recent-section" hidden><div class="section-heading"><h2>接續上次閱讀</h2><span>只記錄瀏覽位置，不評估掌握程度</span></div><div id="recent"></div></section>
+<section id="library" class="library">
+<div class="section-heading"><div><div class="eyebrow">YOUR GROWING LIBRARY</div><h2 id="library-title">全部學習資源</h2></div><span id="result-count" aria-live="polite"></span></div>
+<div class="tools"><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜尋概念、公式、教材或檔名…" aria-label="搜尋教材"><kbd>/</kbd></div><label class="sort-label">排序 <select id="sort"><option value="curated">建議順序</option><option value="title">依名稱</option></select></label></div>
+<div id="types" class="tabs" role="group" aria-label="資源類型"></div>
+<div id="active-summary" class="active-summary" hidden></div>
+<div id="cards" class="cards"></div>
+<div id="empty" class="empty" hidden><span>⌕</span><h3>沒有找到符合的資源</h3><p>試試英文術語、較短的關鍵字，或清除篩選。</p><button id="clear" class="primary">清除所有篩選</button></div>
+</section>
+<footer><div class="footer-brand">課程學習圖鑑</div><p>概念 → 圖形 → 公式 → 完整教材<br>依本機專案整理；合成示例、歷史講義與原型輸出皆保留標示。</p><button id="scope" class="quiet">查看收錄說明 ↗</button></footer>
+</main></div>
+<dialog id="viewer" aria-labelledby="viewer-title"><header class="viewer-header"><div><span id="viewer-type" class="eyebrow"></span><h2 id="viewer-title"></h2></div><div><span class="atlas-update" data-update-notice hidden><span role="status">此頁有新版本</span> <button type="button">重新整理</button></span><button id="viewer-save" class="quiet">☆ 收藏</button><button id="close-viewer" class="close" aria-label="關閉預覽">✕</button></div></header><div class="viewer-info"><p id="viewer-desc"></p><div id="viewer-links"></div></div><div id="viewer-body"></div><div id="viewer-source"></div></dialog>
+<dialog id="about" aria-labelledby="about-title"><button id="close-about" class="close" aria-label="關閉說明">✕</button><div class="eyebrow">ABOUT THIS ATLAS</div><h2 id="about-title">一個會隨複習長大的入口</h2><p>每門課用自己的資源清單決定收錄範圍。學習區收錄講義、筆記、解答與圖解。作業區可收錄習題與相關材料。</p><p>PDF 與已轉檔的 PPTX 支援連續捲動。按 Esc 可關閉目前的站內預覽。</p><p>收藏與最近閱讀儲存在此瀏覽器，依課程分開。</p><a href="catalog.json" download>下載完整資源索引（JSON） ↓</a></dialog>
+<script src="data.js"></script><script type="module" src="app.js"></script>
+<script type="module" src="components/version-monitor.mjs"></script>
+</body></html>

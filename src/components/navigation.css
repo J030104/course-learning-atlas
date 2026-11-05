@@ -1,0 +1,4 @@
+#course-picker{font-size:.85rem;font-weight:650;margin-bottom:12px}
+#course-picker select{display:block;width:100%;margin-top:5px;padding:7px 8px;border:1px solid #aac7b7;border-radius:5px;color:var(--ink);background:white}
+.atlas-update{display:inline-flex;flex-wrap:wrap;align-items:center;gap:3px 7px;background:#fff0cf;color:#59400e;border-radius:6px;padding:3px 7px;font-size:.78rem}
+.atlas-update button{padding:2px 5px;border:1px solid #b28a43;border-radius:4px;font-weight:700}

@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__/
+*.pyc
+/dist/
+/private/
+/.env*
+/TODO.md
+/node_modules/
+/playwright-report/
+/test-results/
