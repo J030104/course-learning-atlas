@@ -1,6 +1,8 @@
 name: Publish public Atlas
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       scope:
@@ -41,8 +43,8 @@ jobs:
       - run: python3 -m unittest discover -s tests -v
       - name: Build one complete site snapshot
         env:
-          ATLAS_SCOPE: ${{ inputs.scope }}
-          ATLAS_MANIFEST: ${{ inputs.manifest }}
+          ATLAS_SCOPE: ${{ github.event_name == 'push' && 'site' || inputs.scope }}
+          ATLAS_MANIFEST: ${{ github.event_name == 'push' && 'examples/site.json' || inputs.manifest }}
         run: |
           case "$ATLAS_SCOPE" in site|config) ;; *) exit 1 ;; esac
           case "$ATLAS_MANIFEST" in -*|/*|../*|*/../*|private/*) exit 1 ;; esac
