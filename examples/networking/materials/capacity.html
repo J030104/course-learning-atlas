@@ -1,22 +1,87 @@
 <!doctype html>
 <html lang="zh-Hant">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>容量估算互動圖</title><link rel="stylesheet" href="../components/answers.css"></head>
-<body><main><h1>調整站點數</h1>
-<p>每站能獨立支援 12 條同時連線。移動滑桿改變站點數。</p>
-<figure><div class="controls"><label>站點數 <input type="range" min="1" max="8" value="3"></label><output aria-live="polite"></output></div>
-<div class="flow" id="sites" aria-hidden="true"></div><figcaption>每格代表一個站點。</figcaption></figure>
-</main><script>
-const slider=document.querySelector('input'),result=document.querySelector('output'),sites=document.querySelector('#sites');
-function draw(){
- const count=Number(slider.value);
- result.value=count+' 站 × 12 條 = '+count*12+' 條';
- sites.replaceChildren(...Array.from({length:count},(_,i)=>{
-  const site=document.createElement('span');
-  site.textContent='站 '+(i+1)+' · 12';
-  return site;
- }));
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>調整站點數</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f7fafb; color: #172d37; font: 1rem/1.7 system-ui, sans-serif; }
+    main { max-width: 48rem; margin: auto; padding: clamp(1rem, 4vw, 2.5rem); }
+    h1, h2 { line-height: 1.25; margin: 0 0 .75rem; }
+    h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); }
+    h2 { font-size: 1.3rem; }
+    p { margin: 0 0 .75rem; }
+    section { margin-block: 1.25rem; padding: 1rem; border: 1px solid #d5e2e6; border-radius: .75rem; background: #fff; }
+    label, output { display: block; font-weight: 650; }
+    output { margin: .5rem 0; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+    input[type="range"] { width: min(24rem, 100%); accent-color: #176482; }
+    button { cursor: pointer; padding: .35rem .75rem; border: 1px solid #749da9; border-radius: .375rem; background: #fff; color: #164b62; font: inherit; }
+    figure { margin: 1rem 0; }
+    #sites { display: grid; grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr)); gap: .45rem; padding: 0; list-style: none; }
+    #sites li { border-radius: .375rem; padding: .6rem; background: #dcedf2; color: #164b62; text-align: center; }
+    figcaption, .note { color: #3e5d6a; }
+    summary { cursor: pointer; color: #164b62; font-weight: 650; }
+    details p { margin: .5rem 0 0; }
+    video { display: block; width: 100%; max-height: 28rem; margin-bottom: .5rem; background: #142a33; border-radius: .375rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>調整站點數</h1>
+  <p>每個站點可同時支援 12 條連線。若各站容量相同，且各自服務不同的連線，總容量就是站點數乘以 12。</p>
+  <section aria-labelledby="experiment-title">
+    <h2 id="experiment-title">用滑桿看總容量</h2>
+    <label for="site-count">站點數</label>
+    <input id="site-count" type="range" min="1" max="8" value="3" aria-describedby="capacity">
+    <output id="capacity" for="site-count" aria-live="polite"></output>
+    <figure>
+      <ul id="sites" aria-hidden="true"></ul>
+      <figcaption>每格是一個站點，代表 12 條同時連線。</figcaption>
+    </figure>
+    <button id="reset" type="button">重設為 3 站</button>
+  </section>
+  <section aria-labelledby="prediction-title">
+    <h2 id="prediction-title">先預測，再驗證</h2>
+    <p>如果增加到 5 站，最多可同時支援多少條連線？比 3 站多幾條？先想一想，再移動滑桿確認。</p>
+    <details>
+      <summary>查看解答</summary>
+      <p>5 × 12 = 60 條。原本是 3 × 12 = 36 條，增加了 24 條。</p>
+    </details>
+  </section>
+  <section aria-labelledby="video-title">
+    <h2 id="video-title">旁白短片</h2>
+    <video controls playsinline preload="metadata" aria-labelledby="video-title" aria-describedby="video-note">
+      <source src="capacity-explainer.mp4" type="video/mp4">
+    </video>
+    <p id="video-note" class="note">影片含繁體中文字幕，示範從 3 站增至 5 站的容量變化。</p>
+    <a href="capacity-explainer.mp4" target="_blank" rel="noopener">開啟影片檔</a>
+  </section>
+  <p class="note">這是示意模型。實際容量也受干擾、用戶分布及站點共用設備等因素影響。</p>
+</main>
+<script>
+const connectionsPerSite = 12;
+const slider = document.querySelector('#site-count');
+const result = document.querySelector('#capacity');
+const sites = document.querySelector('#sites');
+
+function draw() {
+  const siteCount = slider.valueAsNumber;
+  const capacity = siteCount * connectionsPerSite;
+  result.value = `${siteCount} 站 × ${connectionsPerSite} 條 = ${capacity} 條`;
+  sites.replaceChildren(...Array.from({ length: siteCount }, (_, index) => {
+    const site = document.createElement('li');
+    site.textContent = `站 ${index + 1} · ${connectionsPerSite} 條`;
+    return site;
+  }));
 }
-slider.addEventListener('input',draw);
+
+slider.addEventListener('input', draw);
+document.querySelector('#reset').addEventListener('click', () => {
+  slider.value = slider.defaultValue;
+  draw();
+});
 draw();
-</script></body></html>
+</script>
+</body>
+</html>

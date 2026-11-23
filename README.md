@@ -6,14 +6,29 @@
 
 ## 本機試用
 
-需要 Python 3.10 或更新版本。從專案根目錄執行：
+需要 Python 3.10 或更新版本。建置只使用 Python 標準函式庫，直接執行即可。從空白資料夾開始可以這樣試用。
 
 ```sh
-python3 atlas.py build
+git clone https://github.com/J030104/course-learning-atlas.git
+cd course-learning-atlas
+python3 atlas.py build --site examples/site.json
 python3 -m http.server 8759 --bind 127.0.0.1 --directory dist
 ```
 
-瀏覽 `http://127.0.0.1:8759`。執行 `python3 atlas.py build --site examples/site.json` 可以改看兩門課的示範站。
+瀏覽 `http://127.0.0.1:8759`，開啟行動網路示範課的「調整站點數」。同一頁有簡短解釋、容量圖、滑桿、自我檢查和旁白影片。現成影片可直接在瀏覽器播放。只要看單課時可執行 `python3 atlas.py build`。
+
+## 用 Codex 學習與複習
+
+從複製下來的專案根目錄開啟 Codex，即可使用專案內的 [`$atlas-learning`](.agents/skills/atlas-learning/SKILL.md)。先試示範課，再把自己的教材加入下方課程設定。只給主題也可以開始，預設用一個例子簡短解釋。需要其他形式時再指定。
+
+- `$atlas-learning 容量估算`
+- `$atlas-learning 複習容量估算`
+- `$atlas-learning 考我容量估算`
+- `$atlas-learning 做一個容量估算互動圖` 或 `$atlas-learning 做一段容量估算旁白影片`
+
+需要跨聊天接續時，可請 Codex 把進度記在課程資料夾內，保留已解過的題目、仍卡住的地方和下一步。之後在同一課程開啟新聊天，從該紀錄開始複習。
+
+新互動頁可放在教材目錄，將 HTML 列入 `files`、將它引用的影片或其他資源列入 `assets`。錄製新影片時，可用 FFmpeg 組合畫面與旁白。macOS 的 `say` 可用於個人自用，公開範例請用可再散布的旁白。完成影片後，確認旁白、字幕和畫面同步，再加入課程。這些工具只在製作新媒體時使用。Node.js 和 Playwright 用於下方的瀏覽器測試。
 
 ## 已有教材
 

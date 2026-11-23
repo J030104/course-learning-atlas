@@ -31,8 +31,9 @@
       "title": "調整站點數",
       "kind": "interactive",
       "topics": ["容量估算"],
-      "description": "調整站點數，查看簡化模型下的總連線上限。",
+      "description": "透過容量圖、滑桿、旁白短片和自我檢查，理解站點數與總連線上限的關係。",
       "files": ["capacity.html"],
+      "assets": ["capacity-explainer.mp4"],
       "synthetic": true
     },
     {
